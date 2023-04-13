@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+  apigateway.webapi:
+    image: ${DOCKER_REGISTRY-}apigatewaywebapi
+    build:
+      context: .
+      dockerfile: ApiGateway.WebApi/Dockerfile
+    links:
+      - warehouse.minimalapi
+    depends_on:
+      - warehouse.minimalapi
+  warehouse.minimalapi:
+    image: ${DOCKER_REGISTRY-}warehouseminimalapi
+    build:
+      context: .
+      dockerfile: Warehouse.MinimalApi/Dockerfile
+    
+
