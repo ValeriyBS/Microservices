@@ -9,6 +9,7 @@ builder.Services.ConfigureServices(builder.Configuration);
 var app = builder.Build();
 
 app.MapGet("/warehouse/v1/items", async ([FromServices]IItemsClient itemsClient) =>
+
 {
     var result = await itemsClient.GetItems();
     return Results.Ok(result);

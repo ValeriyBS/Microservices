@@ -15,5 +15,13 @@ services:
     build:
       context: .
       dockerfile: Warehouse.MinimalApi/Dockerfile
-    
+    links:
+      - items.minimalapi
+    depends_on:
+      - items.minimalapi
+  items.minimalapi:
+    image: ${DOCKER_REGISTRY-}itemsminimalapi
+    build:
+      context: .
+      dockerfile: Items.MinimalApi/Dockerfile
 

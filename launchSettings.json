@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "warehouse.minimalapi": "StartDebugging",
-        "apigateway.webapi": "StartDebugging"
+        "apigateway.webapi": "StartDebugging",
+        "items.minimalapi": "StartDebugging"
       }
     }
   }
