@@ -4,31 +4,31 @@ services:
   warehouse.minimalapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      #- ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "91:443"
-      - "81:80"
-    #volumes:
-    #  - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-    #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    #ports:
+    #  - "91:443"
+    #  - "81:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   apigateway.webapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      #- ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
       - "90:443"
       - "80:80"
-    #volumes:
-    #  - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-    #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
   items.minimalapi:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      #- ASPNETCORE_URLS=https://+:443;http://+:80
-    ports:
-      - "92:443"
-      - "82:80"
-    #volumes:
-    #  - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-    #  - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    #ports:
+    #  - "92:443"
+    #  - "82:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

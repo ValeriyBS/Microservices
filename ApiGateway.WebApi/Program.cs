@@ -3,12 +3,12 @@ using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("CORSPolicy",
-//        b => b.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
-//});
+//Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CORSPolicy",
+       b => b.AllowAnyMethod().AllowAnyHeader().AllowCredentials().SetIsOriginAllowed((hosts) => true));
+});
 
 builder.Configuration.AddJsonFile("ocelot.json");
 builder.Services.AddControllers();
@@ -19,18 +19,15 @@ builder.Services.AddOcelot();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+//Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
-//app.UseCors("CORSPolicy ")app.UseHttpsRedirection();
+app.UseCors("CORSPolicy ");
+app.UseHttpsRedirection();
 app.UseOcelot().Wait();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

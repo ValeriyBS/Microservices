@@ -10,5 +10,6 @@ app.MapGet("/items", () => new ItemsResponseDto
         Name = "SomeItemName"
     })
     .AddEndpointFilter<ApiKeyAuthenticationEndpointFilter>();
+app.MapGet("/healthy", () => "beep");
 
 app.Run();

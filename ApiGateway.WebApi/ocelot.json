@@ -2,18 +2,19 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/warehouse/v1/items",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "warehouse.minimalapi",
-          "Port": 80
+          "Port": 443
         }
       ],
       "UpstreamPathTemplate": "/microservices/products",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:80"
+    "BaseUrl": "https://localhost:90"
   }
 }

@@ -14,7 +14,7 @@ app.MapGet("/warehouse/v1/items", async ([FromServices]IItemsClient itemsClient)
     var result = await itemsClient.GetItems();
     return Results.Ok(result);
 });
-//app.MapGet("/items", () => "hi");
+app.MapGet("/healthy", () => "beep");
 
 
 app.Run();
