@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Items.MinimalApi/Items.MinimalApi.csproj", "Items.MinimalApi/"]
+COPY ["Items.Contracts/Items.Contracts.csproj", "Items.Contracts/"]
 RUN dotnet restore "Items.MinimalApi/Items.MinimalApi.csproj"
 COPY . .
 WORKDIR "/src/Items.MinimalApi"

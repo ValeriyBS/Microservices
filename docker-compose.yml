@@ -8,8 +8,10 @@ services:
       dockerfile: ApiGateway.WebApi/Dockerfile
     links:
       - warehouse.minimalapi
+      - identity.minimalapi
     depends_on:
       - warehouse.minimalapi
+      - identity.minimalapi
   warehouse.minimalapi:
     image: ${DOCKER_REGISTRY-}warehouseminimalapi
     build:
@@ -24,4 +26,9 @@ services:
     build:
       context: .
       dockerfile: Items.MinimalApi/Dockerfile
+  identity.minimalapi:
+    image: ${DOCKER_REGISTRY-}identityminimalapi
+    build:
+      context: .
+      dockerfile: Identity.MinimalApi/Dockerfile
 

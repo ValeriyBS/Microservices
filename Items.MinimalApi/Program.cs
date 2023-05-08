@@ -11,5 +11,6 @@ app.MapGet("/items", () => new ItemsResponseDto
     })
     .AddEndpointFilter<ApiKeyAuthenticationEndpointFilter>();
 app.MapGet("/healthy", () => "beep");
+app.MapGet("/", () => "hello");
 
 app.Run();

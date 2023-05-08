@@ -11,8 +11,58 @@
       ],
       "UpstreamPathTemplate": "/microservices/products",
       "UpstreamHttpMethod": [ "Get" ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayAuthenticationScheme"
+      //},
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/warehouse/healthy",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "warehouse.minimalapi",
+          "Port": 443
+        }
+      ],
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "ApiGatewayAuthenticationScheme"
+      //},
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      //"RouteClaimsRequirement": {
+      //  "city": "city"
+      //},
+      "UpstreamPathTemplate": "/microservices/products/checkhealthy",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "DownstreamPathTemplate": "/warehouse/v2/items",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "warehouse.minimalapi",
+          "Port": 443
+        }
+      ],
+      "UpstreamPathTemplate": "/microservices/v2/products",
+      "UpstreamHttpMethod": [ "Get" ],
+      "RouteIsCaseSensitive": false,
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "DelegatingHandlers": [
+        "TokenExchangeDelegatingHandler"
+      ],
       "DangerousAcceptAnyServerCertificateValidator": true
     }
+
+
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:90"
