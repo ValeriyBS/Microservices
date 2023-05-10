@@ -16,7 +16,7 @@ public class JwtTokenHandler
             _configuration = configuration;
         }
 
-        public string? GenerateJwtToken(TokenInfo tokenInfo)
+        public (string? value, int expires) GenerateJwtToken(TokenInfo tokenInfo)
         {
             JwtTokenSettings = _configuration.GetSection(JwtTokenSettings.JwtToken).Get<JwtTokenSettings>();
 
@@ -42,6 +42,6 @@ public class JwtTokenHandler
             var securityToken = jwtSecurityTokenHandler.CreateToken(securityTokenDescriptor);
             var token = jwtSecurityTokenHandler.WriteToken(securityToken);
 
-            return token;
+            return (token, (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds);
         }
     }

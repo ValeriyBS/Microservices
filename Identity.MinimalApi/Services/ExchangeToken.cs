@@ -49,7 +49,8 @@ namespace Identity.MinimalApi.Services
             return new AuthenticationResponse
             {
                 ApiName = userAccount.ApiName,
-                ExchangedToken = token
+                ExchangedToken = token.value,
+                ExpiresIn = token.expires
             };
         }
     }
