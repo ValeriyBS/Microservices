@@ -5,10 +5,13 @@ namespace ApiGateway.WebApi.DelegatingHandlers
     public class TokenExchangeDelegatingHandler : DelegatingHandler
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IConfiguration _configuration;
 
-        public TokenExchangeDelegatingHandler(IHttpClientFactory httpClientFactory)
+        public TokenExchangeDelegatingHandler(IHttpClientFactory httpClientFactory,
+            IConfiguration configuration)
         {
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(
@@ -22,20 +25,20 @@ namespace ApiGateway.WebApi.DelegatingHandlers
 
             // replace the incoming bearer token with our new one
             request.Headers.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", newToken.JwtToken);
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", newToken.ExchangedToken);
 
             return await base.SendAsync(request, cancellationToken);
         }
 
-        private async Task<AuthenticationResponse> ExchangeToken(string incomingToken, CancellationToken cancellationToken)
+        private async Task<AuthenticationResponse?> ExchangeToken(string incomingToken, CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient();
 
-            var url = "http://identity.minimalapi:80/identity/exchangetoken";//_configuration.GetSection(Constants.Url).Value;
+            var url = _configuration.GetSection("IdentityServerUrl").Value;
 
             var request = new AuthenticationRequest
             {
-                ApiName = "apigateway",
+                ApiName = "ApiGateway.WebApi",
                 ApiKey = "apigatewaykey",
                 RequestedAudience = "Warehouse.MinimalApi",
                 RequestedScope = "Warehouse.MinimalApi.Read",
@@ -46,14 +49,7 @@ namespace ApiGateway.WebApi.DelegatingHandlers
 
             response.EnsureSuccessStatusCode();
 
-            var authenticationResponse = await response.Content.ReadFromJsonAsync<AuthenticationResponse>(cancellationToken: cancellationToken);
-
-            return authenticationResponse ?? new AuthenticationResponse
-            {
-                ApiName = "",
-                JwtToken = "",
-                ExpiresIn = 0
-            };
+            return await response.Content.ReadFromJsonAsync<AuthenticationResponse>(cancellationToken: cancellationToken);
         }
     }
 }

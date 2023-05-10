@@ -2,7 +2,7 @@
 {
     public class UserAccount
     {
-        public string ApiName { get; set; }
-        public string ApiKey { get; set; }
+        public string ApiName { get; set; } = string.Empty;
+        public string ApiKey { get; set; } = string.Empty;
     }
 }

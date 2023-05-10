@@ -1,14 +1,15 @@
-using JwtAuthenticationManager;
+using Identity.MinimalApi;
+using Identity.MinimalApi.Interfaces;
 using JwtAuthenticationManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<JwtTokenHandler>();
+builder.Services.ConfigureServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapPost("/identity/exchangetoken", async (AuthenticationRequest request, JwtTokenHandler tokenHandler) =>
+app.MapPost("/identity/exchangetoken", async (AuthenticationRequest request, IExchangeToken exchangeToken) =>
 {
-    var authenticationResponse = tokenHandler.GenerateJwtToken(request);
+    var authenticationResponse = await exchangeToken.Execute(request);
     return Results.Created("identity/exchangetoken", authenticationResponse);
 });
 

@@ -9,7 +9,7 @@ namespace Warehouse.MinimalApi.Tests
 {
     public class JwtToken
     {
-        public const string JWT_SECURITY_KEY = "thisisthesecretforgeneratingakey(mustbeatleast32bitlong)";
+        public const string JWT_SECURITY_KEY = "K0O1RUTXaHDHOgNHF4DSmPiw70a4vNEinbjMcECcSzd1T411yWV85g6YINgjVvu";
         private const int JWT_TOKEN_VALIDITY_MINS = 80;
 
         [Fact]
@@ -30,8 +30,8 @@ namespace Warehouse.MinimalApi.Tests
 
             var securityTokenDescriptor = new SecurityTokenDescriptor
             {
-                Issuer = "https://localhost:5010",
-                Audience = "apigateway",
+                Issuer = "SomeUI",
+                Audience = "ApiGateway.WebApi",
                 Subject = claimsIdentity,
                 NotBefore = DateTime.UtcNow,
                 Expires = tokenExpiryTimeStamp,

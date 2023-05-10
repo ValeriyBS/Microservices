@@ -2,8 +2,7 @@
 {
     public class AuthenticationResponse
     {
-        public string ApiName { get; set; }
-        public string JwtToken { get; set; }
-        public int ExpiresIn { get; set; }
+        public string ApiName { get; set; } = string.Empty;
+        public string ExchangedToken { get; set; } = string.Empty;
     }
 }

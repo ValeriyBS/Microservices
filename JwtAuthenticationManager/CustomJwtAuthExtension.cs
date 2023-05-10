@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices.JavaScript;
+using System.Text;
+using JwtAuthenticationManager.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
@@ -7,8 +10,12 @@ namespace JwtAuthenticationManager
 {
     public static class CustomJwtAuthExtension
     {
-        public static void AddCustomJwtAuthentication(this IServiceCollection services, IEnumerable<string>? aud = default, string? iss = default)
+        private static JwtTokenSettings? JwtTokenSettings { get; set; }
+
+        public static void AddCustomJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            JwtTokenSettings = configuration.GetSection(JwtTokenSettings.JwtToken).Get<JwtTokenSettings>();
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -17,16 +24,15 @@ namespace JwtAuthenticationManager
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
-                var validAudiences = aud as string[] ?? aud.ToArray();
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = iss  is not null,
-                    ValidateAudience = validAudiences.Any(),
-                    ValidIssuer = iss,
-                    ValidAudiences = validAudiences,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtTokenHandler.JWT_SECURITY_KEY))
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = JwtTokenSettings.ValidationIssuer,
+                    ValidAudiences = JwtTokenSettings.Audiences,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtTokenSettings.IssuerSecurityKey))
                 };
             });
         }

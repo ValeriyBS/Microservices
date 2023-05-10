@@ -23,37 +23,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var authenticationScheme = "ApiGatewayAuthenticationScheme";
-
-//JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-
-//builder.Services.AddAuthentication(o =>
-//    {
-//        o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//        o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//    })
-//    .AddJwtBearer(options =>
-//    {
-//        options.RequireHttpsMetadata = false;
-//        options.SaveToken = true;
-//        options.TokenValidationParameters = new TokenValidationParameters
-//        {
-//            ValidateIssuer = true,
-//            ValidateAudience = true,
-//            ValidateIssuerSigningKey = true,
-//            ValidIssuer = "https://localhost:5010",
-//            ValidAudience = "Warehouse.MinimalApi",
-//            IssuerSigningKey = new SymmetricSecurityKey(
-//                Encoding.ASCII.GetBytes("thisisthesecretforgeneratingakey(mustbeatleast32bitlong)"))
-//        };
-//    });
-
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<TokenExchangeDelegatingHandler>();
 
 builder.Services.AddOcelot()
     .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
-builder.Services.AddCustomJwtAuthentication(new List<string>{"apigateway"}, "https://localhost:5010");
+builder.Services.AddCustomJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 

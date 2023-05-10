@@ -1,11 +1,9 @@
 ﻿namespace JwtAuthenticationManager.Models
 {
-    public class AuthenticationRequest
+    public class AuthenticationRequest : TokenBase
     {
-        public string ApiName { get; set; }
-        public string ApiKey { get; set; }
-        public string RequestedAudience { get; set; }
-        public string RequestedScope { get; set;}
-        public string Token { get; set;}
+        public string ApiName { get; set; } = string.Empty;
+        public string ApiKey { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
     }
 }
