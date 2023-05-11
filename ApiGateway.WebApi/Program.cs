@@ -1,12 +1,7 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using ApiGateway.WebApi.DelegatingHandlers;
 using JwtAuthenticationManager;
-using Ocelot.Values;
+using Ocelot.DependencyInjection;
+using Ocelot.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +24,7 @@ builder.Services.AddScoped<TokenExchangeDelegatingHandler>();
 builder.Services.AddOcelot()
     .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
 builder.Services.AddCustomJwtAuthentication(builder.Configuration);
+//builder.Services.AddAuthentication().AddJwtBearer("Bearer");
 
 var app = builder.Build();
 

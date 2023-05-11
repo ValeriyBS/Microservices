@@ -61,8 +61,6 @@
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
     }
-
-
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:90"

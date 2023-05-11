@@ -16,6 +16,11 @@ namespace JwtAuthenticationManager
         {
             JwtTokenSettings = configuration.GetSection(JwtTokenSettings.JwtToken).Get<JwtTokenSettings>();
 
+            if (JwtTokenSettings is null)
+            {
+                throw new ArgumentNullException(nameof(JwtTokenSettings));
+            }
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -30,9 +35,9 @@ namespace JwtAuthenticationManager
                     ValidateIssuerSigningKey = true,
                     ValidateIssuer = true,
                     ValidateAudience = true,
-                    ValidIssuer = JwtTokenSettings.ValidationIssuer,
-                    ValidAudiences = JwtTokenSettings.Audiences,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtTokenSettings.IssuerSecurityKey))
+                    ValidIssuer = JwtTokenSettings.ValidIssuer,
+                    ValidAudiences = JwtTokenSettings.ValidAudiences,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtTokenSettings.IssuerSigningKey))
                 };
             });
         }

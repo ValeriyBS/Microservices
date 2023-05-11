@@ -20,8 +20,13 @@ public class JwtTokenHandler
         {
             JwtTokenSettings = _configuration.GetSection(JwtTokenSettings.JwtToken).Get<JwtTokenSettings>();
 
-            var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(JwtTokenSettings.ValidityMinutes);
-            var tokenKey = Encoding.ASCII.GetBytes(JwtTokenSettings.IssuerSecurityKey);
+            if (JwtTokenSettings is null)
+            {
+                throw new ArgumentNullException(nameof(JwtTokenSettings));
+            }
+
+            var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(JwtTokenSettings.ValidityInMinutes);
+            var tokenKey = Encoding.ASCII.GetBytes(JwtTokenSettings.IssuerSigningKey);
 
             var securityKey = new SymmetricSecurityKey(tokenKey);
 
