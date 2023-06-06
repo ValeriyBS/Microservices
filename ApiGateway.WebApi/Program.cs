@@ -1,4 +1,5 @@
 using ApiGateway.WebApi.DelegatingHandlers;
+using ApplicationInsights.Nuget.Extensions;
 using JwtAuthenticationManager;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
@@ -17,17 +18,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddApplicationInsights(builder.Configuration);
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<TokenExchangeDelegatingHandler>();
 
 builder.Services.AddOcelot()
     .AddDelegatingHandler<TokenExchangeDelegatingHandler>();
+
 builder.Services.AddCustomJwtAuthentication(builder.Configuration);
-//builder.Services.AddAuthentication().AddJwtBearer("Bearer");
+//builder.Services.AddAuthentication().AddJwtBearer();
 
 var app = builder.Build();
-
+app.MapGet("/", () => "beep");
 //Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
